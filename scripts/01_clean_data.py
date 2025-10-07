@@ -245,7 +245,12 @@ def _to_millions(series: pd.Series) -> pd.Series:
 
 def _revenue_to_budget_ratio(df: pd.DataFrame) -> pd.Series:
     """Compute revenue divided by budget with zero-budget protection."""
-    return pd.Series([0])  # TODO: implement
+    revenue = df['revenue']
+    budget = df['budget']
+
+    ratio = pd.Series(0.0, index = df.index)
+    ratio.loc[budget.ne(0)] = revenue/budget
+    return ratio
 
 
 def _log1p_nonnegative(series: pd.Series) -> pd.Series:
